@@ -1,0 +1,56 @@
+<?php 
+
+class daftarBarang extends Model{
+    private $daftar = [];
+  
+    
+    public function getDataAll(){
+        $stmt = "select * from daftarbarang";
+        $queery = $this->db->query($stmt);
+        $data = [];
+        while ($result = $this->db->fetch_array($queery)){
+            $data[] = $result;
+        }
+        return $data;
+    }
+
+    public function getDataById($id){
+        $data = [];
+        $stmt = "select * from daftarbarang where id = $id";
+        $queery = $this->db->query($stmt);
+        $data = $this->db->fetch_array($queery);
+        return $data;
+    }
+
+    public function tambahBarang($param){
+        $stmt = "insert into daftarbarang (nama,qty) values (:nama,:qty)";
+        $queery = $this->db->query($stmt, $param);
+        if ($this->db->last_id() > 0) {
+            return true;
+        } else {
+        return false;
+        }
+    }
+
+    public function updateBarang($param){
+        $stmt = "update daftarbarang set nama = :nama, qty = :qty where  id = :id";
+        $queery = $this->db->query($stmt, $param);
+        if ($queery->rowCount() > 0) {
+            return true;
+        } else {
+        return false;
+        }
+    }
+
+    public function hapusBarang($id){
+
+        $stmt = "delete from daftarbarang where  id = $id";
+        $queery = $this->db->query($stmt);
+        if ($queery->rowCount() > 0) {
+            return true;
+        } else {
+        return false;
+        }
+    }
+    
+}
